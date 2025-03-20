@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; style-src 'self' 'unsafe-inline' https:; script-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;">
+    <title>About Me</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap">
+    <style>
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        :root {
+            --primary-color: #2d1950;
+            --secondary-color: #8a2be2;
+            --accent-color: #c770f0;
+            --text-color: #e6e6e6;
+            --bg-color: #1b1a2a;
+            --card-bg: #2d1950;
+        }
+
+        [data-theme="light"] {
+            --primary-color: #8a2be2;
+            --secondary-color: #6a0dad;
+            --accent-color: #9b30ff;
+            --text-color: #2d1950;
+            --bg-color: #ffffff;
+            --card-bg: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 40px 0;
+            margin-bottom: 60px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            border: 5px solid var(--accent-color);
+            box-shadow: 0 0 20px rgba(199, 112, 240, 0.5);
+            transform-style: preserve-3d;
+            animation: profileFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes profileFloat {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(10deg); }
+        }
+
+        .hero-text {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .skill-card i {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin: 60px 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        @media (max-width: 768px) {
+            .projects {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.5s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 20px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: var(--accent-color);
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-color);
+            color: white;
+            font-size: 1.8rem;
+            transition: transform 0.5s, background 0.3s;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px) rotateY(360deg);
+            background: var(--secondary-color);
+        }
+
+        .quick-nav {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1000;
+        }
+
+        .quick-nav button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 5px 0;
+            transition: transform 0.3s;
+        }
+
+        .quick-nav button:hover {
+            transform: scale(1.1);
+        }
+
+        .contact-form {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .contact-form button {
+            background: var(--accent-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .contact-form button:hover {
+            transform: scale(1.05);
+        }
+
+        .faq {
+            margin: 40px 0;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+        }
+
+        .faq-item:hover {
+            transform: translateZ(20px);
+        }
+
+        .faq-answer {
+            display: none;
+            padding-top: 10px;
+        }
+
+        .audio-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--accent-color);
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background: var(--primary-color);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            .profile {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2em;
+            }
+
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <button class="audio-control" onclick="toggleAudio()">
+        <i class="fas fa-volume-up"></i>
+    </button>
+
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <header>
+        <div class="container">
+            <div class="profile">
+                <img src="image.png" alt="DF_GD_D" class="profile-img">
+                <div class="hero-text">
+                    <h1>Z 𝘌 T H</h1>
+                    <p>مبرمج بايثون متخصص ~ خبير أمن سيبراني ~ مطور ويب</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="social-links">
+            <a href="https://t.me/DF_GD_D" class="social-btn">
+                <i class="fab fa-telegram"></i>
+            </a>
+            <a href="https///github.com/PRIVATE001" class="social-btn">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="None" class="social-btn">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+
+        <div class="skills">
+            <div class="skill-card">
+                <i class="fab fa-python"></i>
+                <h3>Python</h3>
+                <p>تطوير تطبيقات متقدمة وحلول برمجية مبتكرة وبوتات تيليكرام</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>أمن سيبراني</h3>
+                <p>حماية وتأمين الأنظمة والشبكات باحترافية عالية والدفاع عنها</p>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-code"></i>
+                <h3>تطوير ويب</h3>
+                <p>تصميم وتطوير مواقع ويب حديثة وتفاعلية اكثر</p>
+            </div>
+        </div>
+
+        <div class="projects">
+            <div class="project-card" style="transform: translateZ(30px)">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='300' height='200' fill='%232d1950'/><text x='50%' y='50%' font-size='20' text-anchor='middle' fill='white' dy='.3em'>مشروع حماية الشبكات</text></svg>" alt="مشروع 1" class="project-image">
+                <div class="project-info">
+                    <h3>Protection System</h3>
+                    <p>نظام متكامل لحماية الشبكات من الهجمات السيبرانية</p>
+                </div>
+            </div>
+            <div class="project-card" style="transform: translateZ(30px)">
+                <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='200'><rect width='300' height='200' fill='%232d1950'/><text x='50%' y='50%' font-size='20' text-anchor='middle' fill='white' dy='.3em'>تطبيق Python</text></svg>" alt="مشروع 2" class="project-image">
+                <div class="project-info">
+                    <h3>Python</h3>
+                    <p>تطبيق ذكي لتحليل البيانات وعرض النتائج</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="contact-form">
+            <h2>تواصل معي</h2>
+            <form onsubmit="return handleSubmit(event)">
+                <input type="text" placeholder="الاسم" required>
+                <input type="email" placeholder="البريد الإلكتروني" required>
+                <textarea placeholder="رسالتك" rows="5" required></textarea>
+                <button type="submit">إرسال</button>
+            </form>
+        </section>
+
+        <section class="faq">
+            <h2>الأسئلة الشائعة</h2>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <h3>ما هي خدماتك الأساسية؟</h3>
+                <div class="faq-answer">
+                    <p>أقدم خدمات برمجة بايثون، وتطوير الويب، وحلول الأمن السيبراني.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div class="quick-nav">
+        <button onclick="scrollToSection('top')"><i class="fas fa-arrow-up"></i></button>
+        <button onclick="scrollToSection('contact')"><i class="fas fa-envelope"></i></button>
+    </div>
+
+    <footer class="copyright">
+        © All Rights Reserved PRIVATE 
+    </footer>
+
+    <script>
+        function createParticles() {
+            const particles = ['⚡', '🔒', '💻', '🛡️', '🔑'];
+            const container = document.body;
+
+            setInterval(() => {
+                const particle = document.createElement('span');
+                particle.className = 'particle';
+                particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.fontSize = Math.random() * 20 + 10 + 'px';
+                container.appendChild(particle);
+
+                setTimeout(() => particle.remove(), 15000);
+            }, 1000);
+        }
+
+        function toggleTheme() {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', document.body.dataset.theme);
+        }
+
+        function toggleAudio() {
+            const audio = document.getElementById('background-music');
+            const button = document.querySelector('.audio-control i');
+
+            if (audio.paused) {
+                audio.play();
+                button.className = 'fas fa-volume-up';
+            } else {
+                audio.pause();
+                button.className = 'fas fa-volume-mute';
+            }
+        }
+
+        function toggleFaq(element) {
+            const answer = element.querySelector('.faq-answer');
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function scrollToSection(id) {
+            const element = id === 'top' ? document.body : document.querySelector('.' + id);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            // Add your form submission logic here
+            alert('تم إرسال رسالتك بنجاح');
+            event.target.reset();
+            return false;
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.keyCode == 123) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.dataset.theme = savedTheme;
+            createParticles();
+        });
+    </script>
+</body>
+</html>
